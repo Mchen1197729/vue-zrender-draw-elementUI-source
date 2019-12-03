@@ -175,7 +175,8 @@
         this.$confirm('是否确定要清除画布？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning'
+          type: 'warning',
+          showClose: false
         }).then(() => {
           //派发清除画布的事件
           this.$store.dispatch('clearMap')

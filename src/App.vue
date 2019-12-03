@@ -33,9 +33,25 @@
           this.$store.dispatch('moveRightMap')
         }
       })
+      //调用userTips
+      this.userTips()
     },
     data () {
       return {}
+    },
+    methods: {
+      //提示用户放大缩小以及拖动以及鼠标右键的详细信息
+      userTips () {
+        const htmlStr = `
+          <div style="color: #F56C6C;font-size: 14px;">1.使用鼠标滚轮滚动可以实现画布的缩放功能</div>
+          <div style="color: #F56C6C;font-size: 14px;margin: 10px 0;">2.按住鼠标滚轮拖动可以实现画布的平移功能</div>
+          <div style="color: #F56C6C;font-size: 14px;">3.鼠标悬停在画好的形状上方右键可以弹出操作菜单栏</div>
+        `
+        this.$alert(htmlStr, '~贴心小提示~', {
+          dangerouslyUseHTMLString: true,
+          showClose: false
+        })
+      }
     },
     computed: {
       ...mapState(['isContextMenuShow'])
