@@ -47,43 +47,43 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        color: '#000',
-      }
+export default {
+  data () {
+    return {
+      color: '#000'
+    }
+  },
+  methods: {
+    // 关闭菜单栏
+    handleCloseMenu () {
+      this.$store.dispatch('closeContextMenu')
     },
-    methods: {
-      //关闭菜单栏
-      handleCloseMenu () {
-        this.$store.dispatch('closeContextMenu')
-      },
-      //删除选中的元素
-      handleDeleteOne () {
-        this.$store.dispatch('deleteOneItem')
-      },
-      //放大单个元素
-      handleScaleBigOne () {
-        this.$store.dispatch('scaleBigOne')
-      },
-      //缩小单个元素
-      handleScaleSmallOne () {
-        this.$store.dispatch('scaleSmallOne')
-      },
-      //旋转单个元素
-      handleRotateOne () {
-        this.$store.dispatch('rotateOne')
-      },
-      //复制单个
-      handleCopyOne () {
-        this.$store.dispatch('copyOne')
-      },
-      //选择颜色
-      selectColor (color) {
-        this.$store.dispatch('changeOneColor', {color})
-      },
+    // 删除选中的元素
+    handleDeleteOne () {
+      this.$store.dispatch('deleteOneItem')
+    },
+    // 放大单个元素
+    handleScaleBigOne () {
+      this.$store.dispatch('scaleBigOne')
+    },
+    // 缩小单个元素
+    handleScaleSmallOne () {
+      this.$store.dispatch('scaleSmallOne')
+    },
+    // 旋转单个元素
+    handleRotateOne () {
+      this.$store.dispatch('rotateOne')
+    },
+    // 复制单个
+    handleCopyOne () {
+      this.$store.dispatch('copyOne')
+    },
+    // 选择颜色
+    selectColor (color) {
+      this.$store.dispatch('changeOneColor', {color})
     }
   }
+}
 </script>
 
 <style lang="less" scoped>

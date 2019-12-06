@@ -1,6 +1,5 @@
 function download (data, strFileName, strMimeType) {
-
-  var self = window, // this script is only for browsers anyway...
+  let self = window, // this script is only for browsers anyway...
     defaultMime = 'application/octet-stream', // this default mime also triggers iframe downloads
     mimeType = strMimeType || defaultMime,
     payload = data,
@@ -15,7 +14,7 @@ function download (data, strFileName, strMimeType) {
     reader
   myBlob = myBlob.call ? myBlob.bind(self) : Blob
 
-  if (String(this) === 'true') { //reverse arguments, allowing download.bind(true, "text/xml", "export.xml") to act as a callback
+  if (String(this) === 'true') { // reverse arguments, allowing download.bind(true, "text/xml", "export.xml") to act as a callback
     payload = [payload, mimeType]
     mimeType = payload[0]
     payload = payload[1]
@@ -38,23 +37,21 @@ function download (data, strFileName, strMimeType) {
     } // end if valid url?
   } // end if url?
 
-  //go ahead and download dataURLs right away
+  // go ahead and download dataURLs right away
   if (/^data\:[\w+\-]+\/[\w+\-]+[,;]/.test(payload)) {
-
     if (payload.length > (1024 * 1024 * 1.999) && myBlob !== toString) {
       payload = dataUrlToBlob(payload)
       mimeType = payload.type || defaultMime
     } else {
-      return navigator.msSaveBlob ?  // IE10 can't do a[download], only Blobs:
-        navigator.msSaveBlob(dataUrlToBlob(payload), fileName) :
-        saver(payload) // everyone else can save dataURLs un-processed
+      return navigator.msSaveBlob // IE10 can't do a[download], only Blobs:
+        ? navigator.msSaveBlob(dataUrlToBlob(payload), fileName)
+        : saver(payload) // everyone else can save dataURLs un-processed
     }
+  }// end if dataURL passed?
 
-  }//end if dataURL passed?
-
-  blob = payload instanceof myBlob ?
-    payload :
-    new myBlob([payload], {type: mimeType})
+  blob = payload instanceof myBlob
+    ? payload
+    : new myBlob([payload], {type: mimeType})
 
   function dataUrlToBlob (strUrl) {
     var parts = strUrl.split(/[:;,]/),
@@ -71,8 +68,7 @@ function download (data, strFileName, strMimeType) {
   }
 
   function saver (url, winMode) {
-
-    if ('download' in anchor) { //html5 A[download]
+    if ('download' in anchor) { // html5 A[download]
       anchor.href = url
       anchor.setAttribute('download', fileName)
       anchor.className = 'download-js-link'
@@ -102,7 +98,7 @@ function download (data, strFileName, strMimeType) {
       return true
     }
 
-    //do iframe dataURL download (old ch+FF):
+    // do iframe dataURL download (old ch+FF):
     var f = document.createElement('iframe')
     document.body.appendChild(f)
 
@@ -113,8 +109,7 @@ function download (data, strFileName, strMimeType) {
     setTimeout(function () {
       document.body.removeChild(f)
     }, 333)
-
-  }//end saver
+  }// end saver
 
   if (navigator.msSaveBlob) { // IE10+ : (has Blob, but not a[download] or URL)
     return navigator.msSaveBlob(blob, fileName)
