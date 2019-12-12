@@ -531,9 +531,11 @@ export default {
   // 16.2 单个缩小
   [SCALE_SMALL_ONE] (state) {
     let [scaleItemX, scaleItemY] = state.currentTransformShape.scale
+    console.log(scaleItemX, scaleItemY)
     state.currentTransformShape.attr('scale', [(scaleItemX * 10 - 1) / 10, (scaleItemY * 10 - 1) / 10])
     state.group.add(state.currentTransformShape)
     state.zr.add(state.group)
+    console.log(state.currentTransformShape)
   },
   [ROTATE_ONE] (state) {
     let {rotation} = state.currentTransformShape
@@ -551,7 +553,7 @@ export default {
 
   },
   // 16.5 单个复制
-  [COPY_ONE] (state) {
+  /* [COPY_ONE] (state) {
     let {draggable, scale, position, rotation, origin, shape, style} = state.currentTransformShape
     // 判断当前的形状类型
     if (state.currentTransformShape.shape.x1) {
@@ -567,6 +569,34 @@ export default {
       // 是圆
       state.group.add(new zrender.Circle({draggable, scale, position, rotation, origin, shape, style}))
     }
+    state.zr.add(state.group)
+    // 提示用户复制成功
+    Message.success({
+      message: '复制成功',
+      duration: 1500
+    })
+    state.isContextMenuShow = false
+    state.transformContainerShow = false
+  }, */
+  [COPY_ONE] (state) {
+    let {draggable, scale, position, rotation, origin, shape, style} = state.currentTransformShape
+    // 判断当前的形状类型
+    let curItem
+    if (state.currentTransformShape.shape.x1) {
+      // 是直线
+      curItem = new zrender.Line({draggable, shape, style})
+    } else if (state.currentTransformShape.shape.width) {
+      // 是矩形
+      curItem = new zrender.Rect({draggable, shape, style})
+    } else if (state.currentTransformShape.style.width) {
+      // 是图片
+      curItem = new zrender.Image({draggable, shape, style})
+    } else if (state.currentTransformShape.shape.cx) {
+      // 是圆
+      curItem = new zrender.Circle({draggable, shape, style})
+    }
+    curItem.attr({scale, position, rotation, origin})
+    state.group.add(curItem)
     state.zr.add(state.group)
     // 提示用户复制成功
     Message.success({
